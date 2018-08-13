@@ -25,6 +25,29 @@ const shortenUrl = () => {
   xhr.send(data);
 }
 
+// shortenUrl function written using Async wait request
+const shortenUrl = async () =>{
+  const urlToShorten = inputField.value;
+  const data = JSON.stringify({destination: urlToShorten});
+
+  try{
+    const response =  await fetch(rebrandlyEndpoint, {
+      method: 'POST',
+      body: data,
+      headers: {
+        "Content-type": "application/json",
+        'apikey': apiKey
+      }
+    })
+    if(response.ok){
+      const jsonResponse = await response.json();
+			renderByteResponse(jsonResponse);
+    }
+  }
+  catch(error){
+    console.log(error);
+  }
+}
 
 // Clear page and call AJAX functions
 const displayShortUrl = (event) => {
